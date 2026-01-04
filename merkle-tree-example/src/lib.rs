@@ -56,8 +56,8 @@ fn test_merkle_tree() {
             &leaf_crh_params,
             &two_to_one_crh_params,
             &root,
-            &[9u8], // The claimed leaf
+            &[91u8], // The claimed leaf
         )
         .unwrap();
-    assert!(result);
+    assert!(!result);
 }

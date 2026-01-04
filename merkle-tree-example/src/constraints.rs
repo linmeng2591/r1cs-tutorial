@@ -52,19 +52,19 @@ impl ConstraintSynthesizer<ConstraintF> for MerkleTreeVerification {
 
         let leaf_bytes = vec![leaf; 1];
 
-        // Now, we have to check membership. How do we do that?
-        // Hint: look at https://github.com/arkworks-rs/crypto-primitives/blob/6be606259eab0aec010015e2cfd45e4f134cd9bf/src/merkle_tree/constraints.rs#L135
-
-        // TODO: FILL IN THE BLANK!
-        // let is_member = XYZ
-        //
-        // is_member.enforce_equal(&Boolean::TRUE)?;
+        let is_member = path.verify_membership(
+            &leaf_crh_params,
+            &two_to_one_crh_params,
+            &root,
+            &leaf_bytes.as_slice(),
+        )?;
+        is_member.enforce_equal(&Boolean::TRUE)?;
 
         Ok(())
     }
 }
 
-// Run this test via `cargo test --release test_merkle_tree`.
+// Run this test via `cargo test --release merkle_tree_constraints_correctness`.
 #[test]
 fn merkle_tree_constraints_correctness() {
     use ark_relations::r1cs::{ConstraintLayer, ConstraintSystem, TracingMode};
